@@ -45,6 +45,10 @@ final class CustomSubscription: Subscription, CustomStringConvertible {
         _cancelled = onCancel
     }
 
+    deinit {
+        Swift.print("CustomSubscription deinit")
+    }
+
     var lastRequested: Subscribers.Demand? {
         return history.lazy.compactMap {
             switch $0 {

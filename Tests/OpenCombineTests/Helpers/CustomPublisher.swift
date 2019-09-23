@@ -44,6 +44,10 @@ final class CustomPublisherBase<Output: Equatable, Failure: Error>: Publisher {
         self.subscription = subscription
     }
 
+    deinit {
+        Swift.print("CustomPublisherBase deinit")
+    }
+
     func receive<Downstream: Subscriber>(subscriber: Downstream)
         where Failure == Downstream.Failure, Output == Downstream.Input
     {

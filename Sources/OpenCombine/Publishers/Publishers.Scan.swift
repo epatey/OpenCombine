@@ -146,12 +146,13 @@ extension Publishers {
 }
 
 extension Publishers.Scan {
-    fileprivate final class Inner<Upstream: Publisher, Downstream: Subscriber>
+    // internal and non-final since it's subclassed by Publishers.Reduce
+    internal class Inner<Upstream: Publisher, Downstream: Subscriber>
         : NonThrowingTransformingInner<Upstream, Downstream>,
         CustomStringConvertible
         where Upstream.Failure == Downstream.Failure
     {
-        final var description: String { "Scan" }
+        internal var description: String { "Scan" }
 
         init(downstream: Downstream,
              initialResult: Downstream.Input,

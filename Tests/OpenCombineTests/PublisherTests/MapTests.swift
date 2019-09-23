@@ -278,12 +278,14 @@ final class MapTests: XCTestCase {
 
         var deinitCounter = 0
 
-        let onDeinit = { deinitCounter += 1 }
+        let onDeinit = {
+            deinitCounter += 1
+        }
 
         do {
             let passthrough = PassthroughSubject<Int, TestingError>()
-            let map = passthrough.map { $0 * 2 }
-            let emptySubscriber = TrackingSubscriber(onDeinit: onDeinit)
+            let map = passthrough.tryMap { $0 * 2 }
+            let emptySubscriber = TrackingSubscriberBase<Int, Error>(onDeinit: onDeinit)
             XCTAssertTrue(emptySubscriber.history.isEmpty)
             map.subscribe(emptySubscriber)
             XCTAssertEqual(emptySubscriber.subscriptions.count, 1)

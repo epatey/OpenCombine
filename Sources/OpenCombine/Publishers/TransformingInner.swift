@@ -33,6 +33,7 @@ internal class TransformingInner<Upstream: Publisher, Downstream: Subscriber>
             return downstream.receive(transformedValue)
         case .failure(let error):
             downstream.receive(completion: .failure(error))
+            cancel()
             transform = nil
             return .none
         }
@@ -47,6 +48,7 @@ internal class TransformingInner<Upstream: Publisher, Downstream: Subscriber>
         default:
             downstream?.receive(completion: completion)
         }
+        deactivate()
         transform = nil
     }
 }

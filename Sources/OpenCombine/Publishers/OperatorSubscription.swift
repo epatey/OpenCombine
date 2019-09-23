@@ -19,6 +19,11 @@ internal class OperatorSubscription<Downstream: Subscriber>: CustomReflectable {
 
     internal func cancel() {
         upstreamSubscription?.cancel()
+        deactivate()
+    }
+
+    // Call this function directly (rather than cancel) when the upstream completes.
+    internal func deactivate() {
         upstreamSubscription = nil
         downstream = nil
     }
